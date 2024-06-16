@@ -131,4 +131,33 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Excluir usuário no banco de dados.
+     * 
+     * @param  \App\Models\User  $user O usuário a ser excluído.
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(User $user): JsonResponse
+    {
+        try {
+
+            // Apagar o registro no banco de dados
+            $user->delete();
+
+            // Retorna os dados do usuário apagado e uma mensagem de sucesso com status 200
+            return response()->json([
+                'status' => true,
+                'user' => $user,
+                'message' => "Usuário apagado com sucesso!",
+            ], 200);
+
+
+        } catch (Exception $e) {
+            // Retorna uma mensagem de erro com status 400
+            return response()->json([
+                'status' => false,
+                'message' => "Usuário não apagado!",
+            ], 400);
+        }
+    }
 }
